@@ -12,6 +12,12 @@ threads = list()
 def playgoca():
     os.system('aplay -d 20 goca.wav')
 
+def lights():
+    while not interrupted:
+        GPIO.output(25, GPIO.HIGH)
+        time.sleep(0.05)
+        GPIO.output(25, GPIO.LOW)
+        time.sleep(0.05)
 example=0
 
 def detected():
@@ -20,12 +26,16 @@ def detected():
     x.start()
 
     time.sleep(2);
+
+    y = threading.Thread(target=lights, args=())
+    threads.append(y)
+    y.start()
     while not interrupted:
         GPIO.output(18, GPIO.LOW)
-        GPIO.output(25, GPIO.HIGH)
+
         time.sleep(0.1)
         GPIO.output(18, GPIO.HIGH)
-        GPIO.output(25, GPIO.LOW)
+
         time.sleep(0.1)
 
 #    os.system('aplay goca.wav')
